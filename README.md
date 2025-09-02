@@ -2,12 +2,12 @@
 
 <br><br>
 
-<p align="center">An app to revise the concepts in form of flash cards.</p>
+<p align="center">A research-backed <b>flashcard app</b> designed to improve learning and retention through retrieval practice and spaced repetition. Users can create decks, study with interactive flashcards, and track progress, with future support for images, collaboration, and AI-powered card generation.</p>
 
 <br><br>
 -----
 
-### Expected Features:
+<!-- ### Expected Features:
 -   Create a list of cards that will have 2 sides. Side 1 will have teh topic and the other side will have the explanation.
 -   User can enter these details.
 -   During revision, this will be shown as a stack. User will be able to see one card at a time and will swipe it to see the next card
@@ -22,9 +22,8 @@
 
 #### Storage and Authentication
 -   Store at local storage
--   Cloud storage if user signs up
+-   Cloud storage if user signs up -->
 
-# Flashcard App — Research & Development
 
 ## Contents
 
