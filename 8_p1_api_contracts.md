@@ -1,10 +1,10 @@
-# 📌 API Contracts – Flashcard App (Phase 1)
+# 📌 API Contracts – Phase 1, MVP
 
 ---
 
 ## 1. **Users**
 
-(for Phase 1 you may skip login, but let’s add at least signup/login for later multi-user support)
+> In Phase 1 you can hardcode a single user, but I’m keeping signup/login so you’re future-ready.
 
 ### `POST /users/signup`
 
@@ -24,10 +24,10 @@
 
 ```json
 {
-  "id": 1,
+  "id": "u-1",
   "username": "john123",
   "email": "john@example.com",
-  "createdAt": "2025-08-29T10:00:00Z"
+  "createdAt": "2025-09-02T10:00:00Z"
 }
 ```
 
@@ -52,7 +52,7 @@
 {
   "token": "jwt.token.value",
   "user": {
-    "id": 1,
+    "id": "u-1",
     "username": "john123",
     "email": "john@example.com"
   }
@@ -72,7 +72,8 @@
 ```json
 {
   "name": "Biology Deck",
-  "description": "Basic biology flashcards"
+  "description": "Basic biology flashcards",
+  "tags": ["biology", "science"]
 }
 ```
 
@@ -80,11 +81,12 @@
 
 ```json
 {
-  "id": 1,
+  "id": "d-1",
   "name": "Biology Deck",
   "description": "Basic biology flashcards",
-  "cards": [],
-  "createdAt": "2025-08-29T10:00:00Z"
+  "tags": ["biology", "science"],
+  "createdAt": "2025-09-02T10:00:00Z",
+  "updatedAt": "2025-09-02T10:00:00Z"
 }
 ```
 
@@ -98,18 +100,8 @@
 
 ```json
 [
-  {
-    "id": 1,
-    "name": "Biology Deck",
-    "description": "Basic biology flashcards",
-    "cardCount": 15
-  },
-  {
-    "id": 2,
-    "name": "Math Formulas",
-    "description": "Important math formulas",
-    "cardCount": 10
-  }
+  { "id": "d-1", "name": "Biology Deck", "description": "Basic biology flashcards", "cardCount": 15 },
+  { "id": "d-2", "name": "Math Formulas", "description": "Important formulas", "cardCount": 10 }
 ]
 ```
 
@@ -117,18 +109,19 @@
 
 ### `GET /decks/{deckId}`
 
-**Purpose:** Get details of one deck + its cards
+**Purpose:** Get details of a deck (with cards if requested via query param)
 
 **Response:**
 
 ```json
 {
-  "id": 1,
+  "id": "d-1",
   "name": "Biology Deck",
   "description": "Basic biology flashcards",
+  "tags": ["biology"],
   "cards": [
-    { "id": 101, "front": "Cell is the ___", "back": "Basic unit of life", "status": "new" },
-    { "id": 102, "front": "Mitochondria is the ___", "back": "Powerhouse of the cell", "status": "new" }
+    { "id": "c-101", "question": "Cell is the ___", "answer": "Basic unit of life", "isBidirectional": true },
+    { "id": "c-102", "question": "Mitochondria is the ___", "answer": "Powerhouse of the cell", "isBidirectional": false }
   ]
 }
 ```
@@ -137,14 +130,10 @@
 
 ### `DELETE /decks/{deckId}`
 
-**Purpose:** Delete a deck
-
 **Response:**
 
 ```json
-{
-  "message": "Deck deleted successfully"
-}
+{ "message": "Deck deleted successfully" }
 ```
 
 ---
@@ -159,8 +148,9 @@
 
 ```json
 {
-  "front": "What is photosynthesis?",
-  "back": "Process by which green plants make food using sunlight",
+  "question": "What is photosynthesis?",
+  "answer": "Process by which green plants make food using sunlight",
+  "isBidirectional": true,
   "tags": ["biology", "plants"]
 }
 ```
@@ -169,11 +159,11 @@
 
 ```json
 {
-  "id": 201,
-  "front": "What is photosynthesis?",
-  "back": "Process by which green plants make food using sunlight",
-  "tags": ["biology", "plants"],
-  "status": "new"
+  "id": "c-201",
+  "question": "What is photosynthesis?",
+  "answer": "Process by which green plants make food using sunlight",
+  "isBidirectional": true,
+  "tags": ["biology", "plants"]
 }
 ```
 
@@ -181,17 +171,15 @@
 
 ### `GET /decks/{deckId}/cards/{cardId}`
 
-**Purpose:** Fetch single card
-
 **Response:**
 
 ```json
 {
-  "id": 201,
-  "front": "What is photosynthesis?",
-  "back": "Process by which green plants make food using sunlight",
-  "tags": ["biology", "plants"],
-  "status": "new"
+  "id": "c-201",
+  "question": "What is photosynthesis?",
+  "answer": "Process by which green plants make food using sunlight",
+  "isBidirectional": true,
+  "tags": ["biology", "plants"]
 }
 ```
 
@@ -199,14 +187,12 @@
 
 ### `PATCH /decks/{deckId}/cards/{cardId}`
 
-**Purpose:** Update card details
-
 **Request:**
 
 ```json
 {
-  "front": "Photosynthesis occurs in ___?",
-  "back": "Chloroplasts"
+  "question": "Photosynthesis occurs in ___?",
+  "answer": "Chloroplasts"
 }
 ```
 
@@ -214,11 +200,11 @@
 
 ```json
 {
-  "id": 201,
-  "front": "Photosynthesis occurs in ___?",
-  "back": "Chloroplasts",
-  "tags": ["biology", "plants"],
-  "status": "new"
+  "id": "c-201",
+  "question": "Photosynthesis occurs in ___?",
+  "answer": "Chloroplasts",
+  "isBidirectional": true,
+  "tags": ["biology", "plants"]
 }
 ```
 
@@ -226,34 +212,32 @@
 
 ### `DELETE /decks/{deckId}/cards/{cardId}`
 
-**Purpose:** Delete a card
-
 **Response:**
 
 ```json
-{
-  "message": "Card deleted successfully"
-}
+{ "message": "Card deleted successfully" }
 ```
 
 ---
 
 ## 4. **Revision Mode**
 
-### `GET /decks/{deckId}/revision`
+> Here, **status is tracked in CardProgress** (per user, not in the card itself).
 
-**Purpose:** Start revision session → return first card
+### `POST /decks/{deckId}/revision/start`
+
+**Purpose:** Start a revision session
 
 **Response:**
 
 ```json
 {
   "sessionId": "rev-abc123",
-  "deckId": 1,
+  "deckId": "d-1",
   "currentCard": {
-    "id": 101,
-    "front": "Cell is the ___",
-    "back": null,
+    "id": "c-101",
+    "question": "Cell is the ___",
+    "answer": null,
     "status": "new"
   }
 }
@@ -263,15 +247,15 @@
 
 ### `POST /revision/{sessionId}/answer`
 
-**Purpose:** Submit answer and get next card (simulate flashcard flipping + status update)
+**Purpose:** Submit answer & update **CardProgress**, return next card
 
 **Request:**
 
 ```json
 {
-  "cardId": 101,
+  "cardId": "c-101",
   "userAnswer": "Basic unit of life",
-  "result": "got-it" // "got-it", "almost", "again"
+  "result": "got-it" // got-it | almost | again
 }
 ```
 
@@ -279,16 +263,16 @@
 
 ```json
 {
-  "updatedCard": {
-    "id": 101,
-    "front": "Cell is the ___",
-    "back": "Basic unit of life",
-    "status": "got-it"
+  "updatedProgress": {
+    "cardId": "c-101",
+    "status": "got-it",
+    "lastReviewedAt": "2025-09-02T10:05:00Z",
+    "nextReviewAt": "2025-09-04T10:05:00Z"
   },
   "nextCard": {
-    "id": 102,
-    "front": "Mitochondria is the ___",
-    "back": null,
+    "id": "c-102",
+    "question": "Mitochondria is the ___",
+    "answer": null,
     "status": "new"
   }
 }
@@ -296,16 +280,18 @@
 
 ---
 
-## 5. **Playlists (Optional for Phase 1)**
+## 5. **Collections (Optional in Phase 1)**
 
-If you want multiple decks grouped together for revision:
+If you want to allow grouping decks even in MVP (rename of playlists → collections):
 
-### `POST /playlists`
+### `POST /collections`
+
+**Request:**
 
 ```json
 {
   "name": "Final Exam Prep",
-  "deckIds": [1, 2, 3]
+  "deckIds": ["d-1", "d-2", "d-3"]
 }
 ```
 
@@ -313,8 +299,19 @@ If you want multiple decks grouped together for revision:
 
 ```json
 {
-  "id": 301,
+  "id": "col-301",
   "name": "Final Exam Prep",
-  "deckIds": [1, 2, 3]
+  "deckIds": ["d-1", "d-2", "d-3"]
 }
 ```
+
+---
+
+✅ Key Changes I made:
+
+* Replaced `front/back` → `question/answer` (clearer & aligns with bidirectionality).
+* Added `isBidirectional` to **Card**.
+* Removed `status` from **Card**; now in **CardProgress**.
+* Revision endpoints return **updated progress** (with `nextReviewAt`).
+* Renamed Playlists → **Collections**.
+* Decks support `tags` for better filtering later.

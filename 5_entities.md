@@ -1,48 +1,72 @@
-### ✅ Entities (with refinements)
+# ✨ Entity List
 
-#### 1. **Card**
+### 1. **User**
 
-* `id`: unique identifier (UUID or ObjectId)
-* `topic` / `question`: main prompt or question
-* `answer` / `explanation`: the explanation or correct answer
-* `status`: enum (`Confident`, `Doubtful`, `Read Again`) — good idea for progress tracking
-* `imageUrl` (optional, for Phase 2 when you allow images)
-
----
-
-#### 2. **Deck**
-
-* `id`: unique identifier
-* `name`: name of the deck (e.g., “Java Basics”)
-* `description`: optional, a short text about the deck
-* `cards`: one-to-many relation with `Card`
-* `sortingOrder`: optional (could be by date, custom order, or spaced repetition in future)
+* `id`
+* `username`
+* `email`
+* `passwordHash`
+* `preferences`: JSON (dark mode, notifications, etc.)
+* `streakCount`, `xpPoints` (for gamification)
+* `role`: enum → `user`, `admin`
+* `createdAt`, `updatedAt`
 
 ---
 
-#### 3. **Playlist / Group**
+### 2. **Deck**
 
-* `id`: unique identifier
-* `name`: name of the playlist (e.g., “Interview Prep”)
-* `decks`: one-to-many relation with `Deck`
-* (optional) `visibility`: `private`, `shared`, `public` → useful when you move to **multi-user sharing**
-
----
-
-#### 4. **User**
-
-* `id`: unique identifier
-* `name`: display name / username
-* `email`: better than just `name` for authentication & uniqueness
-* `passwordHash`: store securely (not plain password)
-* `decks`: decks created by this user
-* `groups / playlists`: playlists created by this user
-* (optional) `role`: `user` / `admin` (for future scalability)
+* `id`
+* `name`
+* `description`
+* `tags`: array (e.g., “biology”, “interview prep”)
+* `ownerId`: FK → `User`
+* `cards`: relation to `Card`
+* `visibility`: enum (`private`, `shared`, `public`)
+* `createdAt`, `updatedAt`
 
 ---
 
-### 🔑 Why this works well
+### 3. **Card**
 
-* It’s **normalized**: Cards belong to Decks, Decks can be grouped into Playlists, and Users own Playlists/Decks.
-* It’s **scalable**: Later, you can add “shared decks” or “AI-generated cards” without breaking the structure.
-* It’s **job-relevant**: This schema thinking applies to both SQL (Postgres/Prisma) and NoSQL (MongoDB/Mongoose).
+* `id`
+* `question`
+* `answer`
+* `isBidirectional`: boolean
+* `mediaUrls`: array (image/audio/video)
+* `hint`: optional (for AI-generated hints in Phase 4)
+* `deckId`: FK → `Deck`
+* `createdAt`, `updatedAt`
+
+---
+
+### 4. **CardProgress** (new, critical)
+
+* `id`
+* `userId`: FK → `User`
+* `cardId`: FK → `Card`
+* `status`: enum (`Confident`, `Doubtful`, `Read Again`)
+* `lastReviewedAt`
+* `nextReviewAt` (for spaced repetition schedules)
+* `createdAt`, `updatedAt`
+
+---
+
+### 5. **Collection**
+
+* `id`
+* `name`
+* `description`
+* `decks`: relation to `Deck`
+* `visibility`: enum (`private`, `shared`, `public`)
+* `ownerId`: FK → `User`
+* `createdAt`, `updatedAt`
+
+---
+
+### 6. *(Optional Phase 4)* **AIContent**
+
+* `id`
+* `deckId`
+* `sourceFileUrl` (e.g., PDF, notes)
+* `generatedCards`: JSON or relation
+* `createdAt`, `updatedAt`
