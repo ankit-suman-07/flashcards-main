@@ -122,13 +122,3 @@ Yes. The collected literature consistently shows that **flashcards are an eviden
 ## 8. Short Form Summary
 
 Empirical studies and practical guides agree: flashcards are a highly effective learning tool when they promote active retrieval and distributed practice, and when users apply them with appropriate strategies (spacing, focused practice, and use of cues). Digital implementations enhance engagement and enable multimedia and scheduling, but success depends on guiding users toward evidence-based usage and designing collaborative features carefully. Thus, a digital flashcard app that embeds simple, research-backed mechanics (active recall, spacing, adaptive sequencing, multimedia, and user-facing guidance) is strongly validated by the literature.
-
----
-
-## Appendix (Cited Documents)
-
-* Golding, Wasarhaley, & Fletcher — *The Use of Flashcards in an Introduction to Psychology Class* (Teaching of Psychology, 2012).&#x20;
-* UTSC Learning Strategies — *Flashcards | Learning Strategies* (practical guide).&#x20;
-* Senzaki, Hackathorn, Appleby et al. — *Reinventing Flashcards to Increase Student Learning* (Psychology Learning & Teaching, 2017).&#x20;
-* *Learning academic vocabulary with digital flashcards* (recent empirical study on digital flashcards and vocabulary learning).&#x20;
-* Kornell — *Optimising learning using flashcards: Spacing is more effective than cramming* (Applied Cognitive Psychology, 2009).&#x20;
