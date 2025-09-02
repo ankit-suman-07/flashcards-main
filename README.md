@@ -28,41 +28,41 @@
 
 ## Contents
 
-1. [Research Sources](1_research_sources.md)  
+1. [Research Sources](docs/1_research_sources.md)  
    - List of research paper and articles
 
-2. [Idea Validation](2_idea_validation.md)  
+2. [Idea Validation](docs/2_idea_validation.md)  
    - Literature review & synthesis of evidence supporting flashcard-based learning.  
 
-3. [Research Approach](3_research_approach.md)  
+3. [Research Approach](docs/3_research_approach.md)  
    - Competitor analysis, target users, and feature validation goals.  
 
-4. [Use Cases](4_use_cases.md)  
+4. [Use Cases](docs/4_use_cases.md)  
    - Real-world scenarios describing how users interact with the app.  
 
-5. [Entities](5_entities.md)  
+5. [Entities](docs/5_entities.md)  
    - Conceptual model of app entities (Card, Deck, User, etc.).  
 
-6. [Database Tables](6_db_tables.md)  
+6. [Database Tables](docs/6_db_tables.md)  
    - PostgreSQL schema with table structures and properties.  
 
-7. [Endpoints](7_endpoints.md)  
+7. [Endpoints](docs/7_endpoints.md)  
    - Overview of REST API endpoints.  
 
-8. [Phase 1 API Contracts](8_p1_api_contracts.md)  
+8. [Phase 1 API Contracts](docs/8_p1_api_contracts.md)  
    - Request/response definitions for MVP endpoints.  
 
-9. [Tools](9_tools.md)  
+9. [Tools](docs/9_tools.md)  
    - Tech stack and rationale behind each choice.  
 
-10. [Project Plan / Roadmap](10_project_plan.md)  
+10. [Project Plan / Roadmap](docs/10_project_plan.md)  
     - Development phases, milestones, and features.  
 
-11. [Architecture](11_architecture.md)  
+11. [Architecture](docs/11_architecture.md)  
     - High-level system diagram and explanation.  
 
-12. [Testing Strategy](12_testing_strategy.md)  
+12. [Testing Strategy](docs/12_testing_strategy.md)  
     - Unit/integration testing approach.  
 
-13. [Deployment Plan](13_deployment_plan.md)  
+13. [Deployment Plan](docs/13_deployment_plan.md)  
     - Hosting, CI/CD, and release strategy.  
