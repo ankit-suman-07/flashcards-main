@@ -33,7 +33,7 @@
 
 ## Contents
 
-1. [Research Sources](docs/1_research_sources.md)  ✅ **DONE**
+1. [Research Sources](docs/1_research_sources.md)  ✅ **DONE** 
    - List of research paper and articles
 
 2. [Idea Validation](docs/2_idea_validation.md)  ✅ **DONE**
