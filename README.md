@@ -10,8 +10,8 @@
 
 
 -  Research 🚧 ***WIP*** (Below)
--  Backend Code 🚧 ***WIP*** [Code Repo]()
--  Frontend Code 🔜 ***Starting Soon*** [Code Repo]()
+-  Backend Code 🚧 ***WIP*** [Code Repo](https://github.com/ankit-suman-07/flashcards-backend)
+-  Frontend Code 🔜 ***Starting Soon*** [Code Repo](https://github.com/ankit-suman-07/flashcards-frontend)
 
 <!-- ### Expected Features:
 -   Create a list of cards that will have 2 sides. Side 1 will have teh topic and the other side will have the explanation.
