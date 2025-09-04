@@ -40,3 +40,104 @@
 * Backed by **cognitive psychology research** (retrieval practice + spaced repetition).
 * Designed to grow from a **personal study tool** into a **collaborative, AI-powered learning platform**.
 * Built for **students, professionals, and lifelong learners**.
+
+
+# 📂 Backend Folder Structure (Node.js + Express + PostgreSQL)
+
+```
+flashcard-app-backend/
+│── src/
+│   ├── config/
+│   │   ├── db.ts                 # PostgreSQL connection (using Prisma/TypeORM/Knex)
+│   │   ├── redis.ts              # Redis client config (optional caching/session)
+│   │   ├── cloudinary.ts         # Cloudinary setup for image uploads
+│   │   ├── passport.ts           # JWT + Passport.js strategies
+│   │   └── env.ts                # Centralized environment variables
+│   │
+│   ├── controllers/              # Route handlers (API endpoints)
+│   │   ├── user.controller.ts
+│   │   ├── deck.controller.ts
+│   │   ├── card.controller.ts
+│   │   ├── revision.controller.ts
+│   │   ├── playlist.controller.ts
+│   │   └── ai.controller.ts      # For OpenAI integration (Phase 4)
+│   │
+│   ├── services/                 # Business logic (separate from controllers)
+│   │   ├── user.service.ts
+│   │   ├── deck.service.ts
+│   │   ├── card.service.ts
+│   │   ├── revision.service.ts
+│   │   ├── playlist.service.ts
+│   │   └── ai.service.ts
+│   │
+│   ├── models/                   # Database models/entities
+│   │   ├── user.model.ts
+│   │   ├── deck.model.ts
+│   │   ├── card.model.ts
+│   │   ├── cardProgress.model.ts
+│   │   ├── playlist.model.ts
+│   │   └── aiJob.model.ts
+│   │
+│   ├── routes/                   # API route definitions
+│   │   ├── user.routes.ts
+│   │   ├── deck.routes.ts
+│   │   ├── card.routes.ts
+│   │   ├── revision.routes.ts
+│   │   ├── playlist.routes.ts
+│   │   └── ai.routes.ts
+│   │
+│   ├── middleware/               # Middlewares for auth, errors, validation
+│   │   ├── auth.middleware.ts
+│   │   ├── error.middleware.ts
+│   │   └── validate.middleware.ts
+│   │
+│   ├── utils/                    # Helper functions (non-business logic)
+│   │   ├── logger.ts
+│   │   ├── response.ts           # Standardized API responses
+│   │   ├── pdfParser.ts          # pdf-parse integration for AI features
+│   │   └── spacedRepetition.ts   # Scheduling algorithm
+│   │
+│   ├── tests/                    # Unit + integration tests
+│   │   ├── user.test.ts
+│   │   ├── deck.test.ts
+│   │   ├── card.test.ts
+│   │   ├── revision.test.ts
+│   │   └── playlist.test.ts
+│   │
+│   ├── app.ts                    # Express app setup (middleware, routes)
+│   └── server.ts                 # Entry point (start server)
+│
+├── prisma/ or migrations/        # DB schema (Prisma schema or Knex migrations)
+│
+├── .env                          # Environment variables
+├── Dockerfile                    # Backend Docker config
+├── docker-compose.yml            # DB + Redis + Backend container setup
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## 🔑 Folder/File Explanations
+
+* **`config/`** → Setup files for PostgreSQL, Redis, Cloudinary, JWT/Passport, environment configs. Keeps app clean.
+* **`controllers/`** → Each file = API endpoints (thin layer). Just takes request → calls `service` → sends response.
+* **`services/`** → Actual business logic. E.g., spaced repetition, deck ownership checks, card creation.
+* **`models/`** → Database schema (if using ORM like Prisma/TypeORM). Represents **tables** like `User`, `Deck`, `Card`.
+* **`routes/`** → Maps URLs (`/api/decks/:id`) to controller functions. Keeps routing clean.
+* **`middleware/`** → Authentication (JWT), validation, error handling (centralized).
+* **`utils/`** → Helper modules like logger, PDF parsing, spaced repetition algorithm.
+* **`tests/`** → Jest/Mocha tests for controllers/services. Keeps things production-grade.
+* **`app.ts`** → Builds the Express app (middleware, routes).
+* **`server.ts`** → Starts the server (reads `PORT`, connects DB).
+* **`prisma/` or `migrations/`** → DB schema + migration history.
+
+---
+
+## ✅ Why This Works for Your Tools
+
+* Fits **Express + PostgreSQL** workflow (with Prisma/Knex).
+* Scales easily → new features = add new service/controller/model/route.
+* Clean separation (controllers = API, services = logic, models = DB).
+* Supports **AI, Redis, Cloudinary, JWT** naturally.
+* Docker + GitHub Actions ready.
