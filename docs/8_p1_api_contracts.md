@@ -304,14 +304,3 @@ If you want to allow grouping decks even in MVP (rename of playlists → collect
   "deckIds": ["d-1", "d-2", "d-3"]
 }
 ```
-
----
-
-✅ Key Changes I made:
-
-* Replaced `front/back` → `question/answer` (clearer & aligns with bidirectionality).
-* Added `isBidirectional` to **Card**.
-* Removed `status` from **Card**; now in **CardProgress**.
-* Revision endpoints return **updated progress** (with `nextReviewAt`).
-* Renamed Playlists → **Collections**.
-* Decks support `tags` for better filtering later.
