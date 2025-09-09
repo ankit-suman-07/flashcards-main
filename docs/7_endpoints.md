@@ -4,10 +4,11 @@
 
 ### User
 
-* `POST /api/user/register` → Create account (optional in MVP, can hardcode a single user for testing).
-* `POST /api/user/login` → Login and get session/token.
-* `GET /api/user/profile` → Get user details (decks, collections, progress).
-* `GET /api/user/stats` → Get streaks, XP, and global learning stats.
+* `POST /api/users/register` → Create account (signup).
+* `POST /api/users/login` → Login and get token (simple mock token in Phase 1).
+* `POST /api/users/logout` → Invalidate session (optional in Phase 1, full in Phase 3).
+* `GET /api/users/:userId` → Get user profile (details: decks, collections, progress).
+* `GET /api/users/:userId/stats` → Get streaks, XP, and learning stats.
 
 ---
 
@@ -16,7 +17,7 @@
 * `POST /api/decks` → Create a new deck.
 * `GET /api/decks` → List all decks (with optional `?tag=` filter).
 * `GET /api/decks/:deckId` → Get details of a deck (cards included).
-* `PUT /api/decks/:deckId` → Update deck name/description/tags.
+* `PUT /api/decks/:deckId` → Update deck (name, description, tags, visibility).
 * `DELETE /api/decks/:deckId` → Delete deck.
 
 ---
@@ -35,8 +36,8 @@
 
 * `POST /api/decks/:deckId/revision/start` → Start revision session.
 * `POST /api/decks/:deckId/revision/:cardId/answer` → Submit confidence (`got_it | almost | again`) → updates **CardProgress**.
-* `GET /api/decks/:deckId/revision/next` → Get next card in sequence (based on status).
-* `GET /api/decks/:deckId/revision/progress` → Get summary of progress for this deck.
+* `GET /api/decks/:deckId/revision/next` → Get next card in sequence.
+* `GET /api/decks/:deckId/revision/progress` → Get progress summary for this deck.
 * `GET /api/revision/history` → Retrieve past sessions and stats.
 
 ---
@@ -55,20 +56,21 @@
 
 ### User Management
 
-* `GET /api/users` → (Admin only) list users.
-* `PUT /api/user/:userId` → Update user profile/preferences.
-* `DELETE /api/user/:userId` → Delete user.
+* `GET /api/users` → (Admin only) list all users.
+* `PUT /api/users/:userId` → Update user profile/preferences.
+* `DELETE /api/users/:userId` → Delete user.
+* `GET /api/user/me` → Get my profile (via token).
 
 ---
 
 ### Collections (Groups of Decks)
 
-* `POST /api/collections` → Create a new collection.
+* `POST /api/collections` → Create collection.
 * `GET /api/collections` → List all collections.
-* `GET /api/collections/:collectionId` → Get details of a collection.
+* `GET /api/collections/:collectionId` → Get collection details.
 * `POST /api/collections/:collectionId/decks/:deckId` → Add deck to collection.
-* `GET /api/collections/:collectionId/decks` → List decks in a collection.
-* `DELETE /api/collections/:collectionId/decks/:deckId` → Remove deck from collection.
+* `GET /api/collections/:collectionId/decks` → List decks in collection.
+* `DELETE /api/collections/:collectionId/decks/:deckId` → Remove deck.
 
 ---
 
@@ -87,35 +89,26 @@
 
 ### Smart Revision
 
-* `GET /api/decks/:deckId/revision/schedule` → Get spaced repetition schedule for this deck (uses SM-2 like algorithm).
-
----
+* `GET /api/decks/:deckId/revision/schedule` → Get spaced repetition schedule for this deck (SM-2 algorithm).
 
 ### AI-Generated Cards
 
-* `POST /api/ai/cards/generate` → Upload PDF/text, AI creates cards.
+* `POST /api/ai/cards/generate` → Upload PDF/text → AI creates cards.
 * `GET /api/ai/cards/status/:jobId` → Track job status.
-* `GET /api/ai/cards/:jobId/results` → Retrieve generated cards after processing.
+* `GET /api/ai/cards/:jobId/results` → Retrieve generated cards.
 
 ---
 
 # 📌 Mapping to Features
 
-| Requirement                   | Endpoint(s)                                                                             | Notes                           |
-| ----------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- |
-| Deck & card creation          | `/api/decks`, `/api/decks/:deckId/cards`                                                | Core CRUD                       |
-| User-specific progress        | `/api/decks/:deckId/revision/...`, `/api/revision/history`                              | Uses **CardProgress**           |
-| Image/audio/video upload      | `/api/decks/:deckId/cards/:cardId/media`                                                | Supports multimedia             |
-| Multi-user collaboration      | `/api/decks/:deckId/share`, `/api/collections/:collectionId/share`                      | Controlled permissions          |
-| Collections (groups of decks) | `/api/collections/...`                                                                  | Flexible organization           |
-| Gamification & stats          | `/api/user/stats`, `/api/decks/:deckId/revision/progress`                               | For streaks + progress tracking |
-| AI card generation            | `/api/ai/cards/generate`, `/api/ai/cards/status/:jobId`, `/api/ai/cards/:jobId/results` | Async job model                 |
-| Smart spaced repetition       | `/api/decks/:deckId/revision/schedule`                                                  | Implements SM-2 like scheduling |
-
----
-
-⚡ This version keeps everything:
-
-* **Clean separation by phase**
-* **Aligned with entities** (CardProgress, Collections, AIJobs)
-* **Supports research goals** (progress tracking, collaboration, AI, spaced repetition)
+| Requirement                   | Endpoint(s)                                                                             | Notes                      |
+| ----------------------------- | --------------------------------------------------------------------------------------- | -------------------------- |
+| Deck & card creation          | `/api/decks`, `/api/decks/:deckId/cards`                                                | Core CRUD                  |
+| User login/profile            | `/api/users/login`, `/api/users/:id`, `/api/users/logout`                               | Token-based from Phase 3   |
+| User-specific progress        | `/api/decks/:deckId/revision/...`, `/api/revision/history`                              | Uses **CardProgress**      |
+| Image/audio/video upload      | `/api/decks/:deckId/cards/:cardId/media`                                                | Multimedia support         |
+| Multi-user collaboration      | `/api/decks/:deckId/share`, `/api/collections/:collectionId/share`                      | Controlled permissions     |
+| Collections (groups of decks) | `/api/collections/...`                                                                  | Flexible organization      |
+| Gamification & stats          | `/api/users/:id/stats`, `/api/decks/:deckId/revision/progress`                          | Streaks + XP               |
+| AI card generation            | `/api/ai/cards/generate`, `/api/ai/cards/status/:jobId`, `/api/ai/cards/:jobId/results` | Async job model            |
+| Smart spaced repetition       | `/api/decks/:deckId/revision/schedule`                                                  | Implements SM-2 scheduling |
